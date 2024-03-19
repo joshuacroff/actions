@@ -1,12 +1,12 @@
 name: Run Compliance Notify Script
 
 # run it weekly
-on: workflow_dispatch
-  # schedule:
-  #   - cron: "05 08 * * 1" 
+on:
+  schedule:
+    - cron: "05 08 * * 1"  # Also adjusted MON to 1 to adhere to cron syntax
 
 env:
-    GMAIL_PASSKEY: ${{ secrets.MTC_GMAIL_PASSKEY }}
+    GMAIL_PASSKEY: ${{ secrets.GMAIL_PASSKEY }}
 
 jobs:
   build-linux:
@@ -17,7 +17,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11.7'
+          python-version: '3.11.7'  # Consider using '3.11' to automatically use the latest 3.11.x version
 
       - name: Install dependencies and run script
         run: |
