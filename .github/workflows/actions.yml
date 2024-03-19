@@ -1,9 +1,9 @@
 name: Run Compliance Notify Script
 
 # run it weekly
-on: workflow_dispatch
-#   schedule:
-#     - cron: "0 8 * * 1"  # Also adjusted MON to 1 to adhere to cron syntax
+on:
+  schedule:
+    - cron: "10 20 * * 1"  # Also adjusted MON to 1 to adhere to cron syntax
 
 env:
     GMAIL_PASSKEY: ${{ secrets.GMAIL_PASSKEY }}
