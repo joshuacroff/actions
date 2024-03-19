@@ -7,15 +7,15 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # set script parameters
-sender_email = "joshua.croff@gmail.com"
+sender_email = "jcroff@bayareametro.gov"
 receiver_email = [
     "jcroff@bayareametro.gov",
-    "hpeters@bayareametro.gov",
-    "hdiaz@bayareametro.gov",
-    "lelias@bayareametro.gov",
+    # "hpeters@bayareametro.gov",
+    # "hdiaz@bayareametro.gov",
+    # "lelias@bayareametro.gov",
 ]
 subject = "Jurisdictions with Compliant Housing Elements"
-password = os.getenv("GMAIL_PASSKEY")
+password = os.getenv("MTC_GMAIL_PASSKEY")
 
 
 def send_email(sender_email, sender_password, receiver_email_list, subject, message):
