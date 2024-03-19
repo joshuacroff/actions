@@ -8,9 +8,15 @@ from email.mime.multipart import MIMEMultipart
 
 # set script parameters
 sender_email = "joshua.croff@gmail.com"
-receiver_email = ["jcroff@bayareametro.gov", "hpeters@bayareametro.gov", "hdiaz@bayareametro.gov"]
+receiver_email = [
+    "jcroff@bayareametro.gov",
+    "hpeters@bayareametro.gov",
+    "hdiaz@bayareametro.gov",
+    "lelias@bayareametro.gov",
+]
 subject = "Jurisdictions with Compliant Housing Elements"
 password = os.getenv("GMAIL_PASSKEY")
+
 
 def send_email(sender_email, sender_password, receiver_email_list, subject, message):
     port = 465  # For SSL
@@ -18,14 +24,15 @@ def send_email(sender_email, sender_password, receiver_email_list, subject, mess
 
     # Create a multipart message
     msg = MIMEMultipart()
-    msg['From'] = sender_email
-    msg['To'] = ", ".join(receiver_email_list)
-    msg['Subject'] = subject
+    msg["From"] = sender_email
+    msg["To"] = ", ".join(receiver_email_list)
+    msg["Subject"] = subject
     msg.attach(MIMEText(message, "plain"))
 
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login(sender_email, sender_password)
         server.sendmail(sender_email, receiver_email_list, msg.as_string())
+
 
 def pull_hcd_compliance_data():
     # pull data in from the API
@@ -71,6 +78,7 @@ def pull_hcd_compliance_data():
 
     return results_df
 
+
 def pull_mtc_housing_inventory():
     # get the most recent housing data from hluv
     url = "https://data.bayareametro.gov/resource/r3au-pj2j.csv?$limit=2000000"
@@ -93,6 +101,7 @@ def pull_mtc_housing_inventory():
 
     return df
 
+
 def compare_hcd_mtc(hcd_df, mtc_df):
     hcd_list = hcd_df[hcd_df["Compliance Status"] == "IN"]["Jurisdiction"].unique().tolist()
     mtc_list = mtc_df["jurisdiction"].unique().tolist()
@@ -105,8 +114,9 @@ def compare_hcd_mtc(hcd_df, mtc_df):
             missing_juris.append(jurisdiction)
 
     new_list = [item for item in missing_juris if item not in items_to_remove]
-    
+
     return new_list
+
 
 def main(sender_email, sender_password, receiver_email_list, subject):
     hcd_df = pull_hcd_compliance_data()
@@ -135,7 +145,6 @@ def main(sender_email, sender_password, receiver_email_list, subject):
     )
     send_email(sender_email, sender_password, receiver_email_list, subject, formatted_message)
 
+
 # run the main function
 main(sender_email, password, receiver_email, subject)
-
-
