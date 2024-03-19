@@ -3,7 +3,7 @@ name: Run Compliance Notify Script
 # run it weekly
 on:
   schedule:
-    - cron: "10 20 * * 1"  # Also adjusted MON to 1 to adhere to cron syntax
+    - cron: "*/5 * * * *"  # Also adjusted MON to 1 to adhere to cron syntax
 
 env:
     GMAIL_PASSKEY: ${{ secrets.GMAIL_PASSKEY }}
