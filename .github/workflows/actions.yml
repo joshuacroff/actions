@@ -1,0 +1,20 @@
+name: Run Compliance Notify Script
+
+# run it weekly
+on: 
+  schedule:
+    - cron: "0 8 * * MON"
+
+jobs:
+    build-linux:
+        runs-on: osx-latest
+
+        steps:
+            - uses: actions/checkout@v4
+            - name: Set up Python 3.11.7
+            - uses: actions/setup-python@v5
+              with:
+                python-version: '3.11.7'
+            - name: Install dependencies
+            
+            
