@@ -3,24 +3,26 @@ name: Run Compliance Notify Script
 # run it weekly
 on: 
   schedule:
-    - cron: "0 8 * * MON"
+    - cron: "0 8 * * 1"  # Also adjusted MON to 1 to adhere to cron syntax
 
 jobs:
-    build-linux:
-        runs-on: osx-latest
+  build-linux:
+    runs-on: macos-latest  # Corrected to macos-latest
 
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-python@v5
-              with:
-                python-version: '3.11.7'
-            - name: Use secret in script
-              env:
-                GMAIL_PASSKEY: ${{ secrets.GMAIL_PASSKEY }}
-            - run: |
-                python -m pip install --upgrade pip
-                pip install -r requirements.txt
-                python compliance_notify.py
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.7'  # Consider using '3.11' to automatically use the latest 3.11.x version
+
+      - name: Install dependencies and run script
+        env:
+          GMAIL_PASSKEY: ${{ secrets.GMAIL_PASSKEY }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python compliance_notify.py
 
 
             
